@@ -4,7 +4,6 @@ import { WebhookEvent } from '@clerk/nextjs/server'
 import { createUser, deleteUser, updateUser } from '@/lib/actions/user.action'
 import { clerkClient } from '@clerk/nextjs'
 import { NextResponse } from 'next/server'
-//import { createUser } from '@/lib/actions/user.action'
 
 export async function POST(req: Request) {
 
