@@ -10,11 +10,11 @@ export default function Home() {
           <div className=' flex justify-center flex-col gap-8 '>
             <h1 className=' font-bold text-[40px] '>host, connect, celebrate: your event, our platform!</h1>
             <p >Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odit, quam officia cupiditate eaque velit provident omnis labore aperiam quasi eveniet.</p>
-            <Button>
               <Link href='#events'>
+                <Button>
                 Explore now
+                </Button>
               </Link>
-            </Button>
           </div>
           <Image
             src='/assets/images/hero.png'
