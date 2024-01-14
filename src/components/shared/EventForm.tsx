@@ -33,6 +33,8 @@ import Image from "next/image"
 import { Calendar } from "../ui/calendar"
 import { Checkbox } from "../ui/checkbox"
 
+import { useUploadThing } from "@/lib/uploadthing"
+
 
 type EventFormProps = {
     userId: string,
@@ -42,6 +44,9 @@ type EventFormProps = {
 function EventForm({ userId, type }: EventFormProps) {
 
     const initValues = eventDefaultValues;
+
+    const {startUpload} = useUploadThing('imageUploader')
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: initValues,
@@ -49,8 +54,14 @@ function EventForm({ userId, type }: EventFormProps) {
 
     const [files, setFiles] = useState<File[]>([]);
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        const eventDate = values;
+
+        let imageUrl = values.imageUrl
+
+        if (imageUrl.length > 0) {
+            const uploadImage = await startUpload(files)
+        }
     }
 
 
