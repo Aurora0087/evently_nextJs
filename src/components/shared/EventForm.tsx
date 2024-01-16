@@ -34,6 +34,8 @@ import { Calendar } from "../ui/calendar"
 import { Checkbox } from "../ui/checkbox"
 
 import { useUploadThing } from "@/lib/uploadthing"
+import { useRouter } from "next/navigation"
+import { CreateEvent } from "@/lib/actions/event.actions"
 
 
 type EventFormProps = {
@@ -45,6 +47,8 @@ function EventForm({ userId, type }: EventFormProps) {
 
     const initValues = eventDefaultValues;
 
+    const router = useRouter()
+
     const {startUpload} = useUploadThing('imageUploader')
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -55,12 +59,35 @@ function EventForm({ userId, type }: EventFormProps) {
     const [files, setFiles] = useState<File[]>([]);
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        const eventDate = values;
 
-        let imageUrl = values.imageUrl
+        let uploadImageUrl = values.imageUrl
 
-        if (imageUrl.length > 0) {
-            const uploadImage = await startUpload(files)
+        if (uploadImageUrl.length > 0) {
+            const uploadImages = await startUpload(files)
+
+            if (!uploadImages) {
+                return
+            }
+
+            uploadImageUrl = uploadImages[0].url
+        }
+
+        if (type === 'create') {
+            try {
+                
+                const newEvent = await CreateEvent({
+                    event: { ...values, imageUrl: uploadImageUrl },
+                    userId,
+                    path :'/profile'
+                })
+
+                if (newEvent) {
+                    form.reset()
+                    router.push(`/events/${newEvent._id}`)
+                }
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
 
@@ -251,7 +278,7 @@ function EventForm({ userId, type }: EventFormProps) {
                             <FormItem>
                                 <FormControl>
                                     <div className="flex bg-white border-2 gap-4 rounded-sm">
-                                        <Input type="number" placeholder="price" {...field}
+                                        <Input type="number" placeholder="₹ price" {...field}
                                             className=" border-0"
                                         />
                                         <FormField

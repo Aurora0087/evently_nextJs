@@ -3,7 +3,7 @@ import Image from "next/image"
 
 const Footer = () => {
   return (
-    <footer className="w-screen center border-t ">
+    <footer className="w-screen center border-t">
       <div className=" w-screen items-center flex justify-between py-5 px-8 flex-col gap-6 sm:flex-row text-center capitalize">
         <Link href='/'>
           <Image

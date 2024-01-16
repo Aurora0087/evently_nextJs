@@ -29,6 +29,7 @@ export default function Home() {
         <div className=' flex w-full flex-col gap-6 md:flex-row'>
           search catagoryFilter
         </div>
+        
       </section>
     </>
   )
