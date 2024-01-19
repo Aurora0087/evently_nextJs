@@ -1,6 +1,6 @@
 'use server'
 
-import { CreateEventParams, DeleteEventParams, GetAllEventsParams, UpdateEventParams } from "@/types"
+import { CreateEventParams, DeleteEventParams, GetAllEventsParams, GetEventsByUserParams, UpdateEventParams } from "@/types"
 import { handleError } from "../utils"
 import { connectToDatabase } from "../database"
 import User from "../database/models/user.model"
@@ -95,6 +95,29 @@ export const updateEvent =async ({userId,event,path}:UpdateEventParams) => {
         )
         revalidatePath(path)
         return JSON.parse(JSON.stringify(updatedEvent))
+    } catch (error) {
+        handleError(error)
+    }
+}
+
+export const getEventByUser = async ({ userId,limit=6, page }: GetEventsByUserParams) => {
+    try {
+        await connectToDatabase()
+
+        const conditions = { organizer: userId }
+        const skipAmount = (page - 1) * limit
+        const eventsQuery = Event.find(conditions)
+            .sort({ createAt: 'desc' })
+            .skip(skipAmount)
+            .limit(limit)
+        
+        const event = await populateEvent(eventsQuery)
+        const eventCount = await Event.countDocuments(conditions)
+
+        return {
+            data: JSON.parse(JSON.stringify(event)),
+            totalPages:Math.ceil(eventCount/limit)
+        }
     } catch (error) {
         handleError(error)
     }

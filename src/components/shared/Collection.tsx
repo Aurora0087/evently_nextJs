@@ -41,7 +41,7 @@ function Collection(
         (
           <div className=' flex w-full justify-center items-center flex-col gap-4 bg-slate-400/10 p-16 mt-10 rounded-lg'>
             <h3 className=' font-bold text-2xl text-slate-500'>{emptyTitle}</h3>
-            <p className=' text-sm'>{emptyDStatusSubtext}</p>
+            <p className=' text-sm text-slate-600'>{emptyDStatusSubtext}</p>
           </div>
         )}
     </>
