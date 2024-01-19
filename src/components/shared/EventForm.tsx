@@ -35,17 +35,20 @@ import { Checkbox } from "../ui/checkbox"
 
 import { useUploadThing } from "@/lib/uploadthing"
 import { useRouter } from "next/navigation"
-import { CreateEvent } from "@/lib/actions/event.actions"
+import { CreateEvent, updateEvent } from "@/lib/actions/event.actions"
+import { IEvent } from "@/lib/database/models/event.model"
 
 
 type EventFormProps = {
     userId: string,
     type: "create" | "update",
+    event?: IEvent,
+    eventId?: string,
 }
 
-function EventForm({ userId, type }: EventFormProps) {
+function EventForm({ userId, type,event,eventId }: EventFormProps) {
 
-    const initValues = eventDefaultValues;
+    const initValues = event && type==='update' ? {...event, startDateTime: new Date(event.startDateTime), endDateTime: new Date(event.endDateTime)} : eventDefaultValues;
 
     const router = useRouter()
 
@@ -56,13 +59,19 @@ function EventForm({ userId, type }: EventFormProps) {
         defaultValues: initValues,
     })
 
+    console.log()
+    console.log(event?.imageUrl)
+
     const [files, setFiles] = useState<File[]>([]);
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
 
         let uploadImageUrl = values.imageUrl
 
-        if (uploadImageUrl.length > 0) {
+        console.log(uploadImageUrl)
+
+
+        if (uploadImageUrl.length > 0 && event?.imageUrl!=uploadImageUrl) {
             const uploadImages = await startUpload(files)
 
             if (!uploadImages) {
@@ -84,6 +93,28 @@ function EventForm({ userId, type }: EventFormProps) {
                 if (newEvent) {
                     form.reset()
                     router.push(`/events/${newEvent._id}`)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        if (type === 'update') {
+
+            if (!eventId) {
+                router.back();
+                return;
+            }
+            try {
+                
+                const updatedEvent = await updateEvent({
+                    event: { ...values, imageUrl: uploadImageUrl, _id:eventId },
+                    userId,
+                    path :`/event/${eventId}`
+                })
+
+                if (updatedEvent) {
+                    form.reset()
+                    router.push(`/events/${updatedEvent._id}`)
                 }
             } catch (error) {
                 console.log(error)

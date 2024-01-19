@@ -10,24 +10,27 @@ const EventDetails = async ({ params: { id }}:SearchParamProps) => {
     
     return (
         <section className=' w-screen overflow-hidden p-6 md:p-10 flex flex-col items-center'>
-            <div className='flex flex-col gap-4 w-full overflow-hidden'>
-                <Image
+            <div className='grid grid-cols-1 gap-4 w-full overflow-hidden md:grid-cols-2'>
+                <div className=' overflow-hidden w-full h-fit rounded-lg object-cover'>
+                    <Image
                     src={event.imageUrl}
                     alt='event Image'
                     width={1000}
                     height={1000}
-                    className=' w-full rounded-lg'
+                    className=' w-full  transition-all hover:scale-105'
                 />
+                </div>
+                
                 <div className='flex flex-col gap-6 p-6 md:p-10 text-black'>
                     <div className='flex flex-col gap-6'>
                         <h2 className=' text-4xl font-bold'>
                             {event.title}
                         </h2>
                         <div className='flex flex-col sm:flex-row sm:items-center gap-3'>
-                            <p className=' px-4 py-1 font-semibold bg-green-500/10 text-green-700 rounded-full'>
+                            <p className=' px-4 py-1 font-semibold bg-green-500/10 text-green-700 rounded-full w-fit'>
                                 {event.isfree ? 'FREE' : `₹${event.price}`}
                             </p>
-                            <p className='px-4 py-1 font-semibold bg-gray-500/10 rounded-full text-gray-500'>
+                            <p className='px-4 py-1 font-semibold bg-gray-500/10 rounded-full text-gray-500 w-fit'>
                                 {event.category.name}
                             </p>
                         </div>
