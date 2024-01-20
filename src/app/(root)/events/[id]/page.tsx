@@ -1,3 +1,4 @@
+import ChekoutButton from '@/components/shared/ChekoutButton'
 import { getEventById } from '@/lib/actions/event.actions'
 import { formatDateTime } from '@/lib/utils'
 import { SearchParamProps } from '@/types'
@@ -28,7 +29,7 @@ const EventDetails = async ({ params: { id }}:SearchParamProps) => {
                         </h2>
                         <div className='flex flex-col sm:flex-row sm:items-center gap-3'>
                             <p className=' px-4 py-1 font-semibold bg-green-500/10 text-green-700 rounded-full w-fit'>
-                                {event.isfree ? 'FREE' : `₹${event.price}`}
+                                {event.isFree ? 'Free' : `₹${event.price}`}
                             </p>
                             <p className='px-4 py-1 font-semibold bg-gray-500/10 rounded-full text-gray-500 w-fit'>
                                 {event.category.name}
@@ -42,6 +43,7 @@ const EventDetails = async ({ params: { id }}:SearchParamProps) => {
                         </p>
                     </div>
                     {/*chekout button */}
+                    <ChekoutButton event={event} />
                     <div className='flex flex-col gap-6 '>
                         <div className='flex gap-2 md:gap-3 items-center px-4 py-1 rounded-full bg-slate-500/5'>
                             <Image
