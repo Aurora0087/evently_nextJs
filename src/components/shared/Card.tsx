@@ -40,7 +40,8 @@ function Card({ event, hidePrice, hasOrderLink }
                     <DeleteConfig eventId={event._id} />
                 </div>
             )}
-            <div
+            <Link
+                href={`/events/${event._id}`}
                 className='flex min-h-[230px] flex-col gap-3 p-6 md:gap-4
                 '
             >
@@ -55,21 +56,21 @@ function Card({ event, hidePrice, hasOrderLink }
                 <p className=' w-fit p-4 py-1 rounded-full bg-slate-900/5 text-slate-500'>
                     {formatDateTime(event.startDateTime).dateTime}
                 </p>
-                <Link href={`/events/${event._id}`} className='px-2 font-semibold text-xl line-clamp-2 w-fit'>
+                <p className='px-2 font-semibold text-xl line-clamp-2 w-fit'>
                     {event.title}
-                </Link>
+                </p>
                 <div className='px-2 flex justify-between w-full text-slate-500'>
                     <p>
                         {event.organizer.firstName + ` `}{event.organizer.lastName}
                     </p>
-                    {!hasOrderLink && (
+                    {/*hasOrderLink && (
                         <Link href={`/orders?eventId=${event._id}`} className="flex gap-2">
                             <p className="text-primary-500">Order Details</p>
                             <Image src="/assets/icons/arrow.svg" alt="search" width={10} height={10} />
                         </Link>
-                    )}
+                    )*/}
                 </div>
-            </div>
+            </Link>
         </div>
     )
 }

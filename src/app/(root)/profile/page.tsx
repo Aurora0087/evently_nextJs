@@ -1,6 +1,8 @@
 import Collection from '@/components/shared/Collection'
 import { Button } from '@/components/ui/button'
 import { getEventByUser } from '@/lib/actions/event.actions'
+import { getOrdersByUser } from '@/lib/actions/order.action'
+import { IOrder } from '@/lib/database/models/order.model'
 import { auth } from '@clerk/nextjs'
 import Link from 'next/link'
 import React from 'react'
@@ -10,7 +12,10 @@ async function page() {
     const { sessionClaims } = auth();
     const userId = sessionClaims?.userId as string
 
-    const organizedEvents = await getEventByUser({userId, page :1})
+    const organizedEvents = await getEventByUser({ userId, page: 1 })
+    
+    const orders = await getOrdersByUser({ userId, page: 1 })
+    const orderesEvents = orders?.data.map((order:IOrder)=> order.event || [])
     return (
         <>
             <section className=' py-6 md:py-10 bg-dotted-pattern bg-slate-50 bg-cover'>
@@ -25,7 +30,7 @@ async function page() {
             </section>
             <section className=' p-6 md:py-10'>
                 <Collection
-                    data={[]}
+                    data={orderesEvents}
                     emptyTitle="No Tickets Purchased Yet"
                     emptyDStatusSubtext='plenty of exciting events to explore'
                     collectionType='My_Tickets'

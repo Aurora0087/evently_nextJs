@@ -11,9 +11,10 @@ async function page() {
     })
     return (
         <>
-            <section className='flex flex-col gap-6'>
-                <h3 className=' font-bold text-4xl md:text-left text-center p-5 py-10 md:px-10 xl:px-0 bg-dotted-pattern bg-slate-50'>Browse All Events</h3>
-                <div className='wrapper '>
+            <section className=''>
+                
+                <div className='wrapper flex flex-col gap-6'>
+                    <h3 className=' font-bold w-full text-4xl md:text-left text-center py-10 md:px-10 xl:px-5 bg-dotted-pattern bg-primary-50 rounded-lg'>Browse All Events</h3>
                     <Collection
                     data={events?.data}
                     emptyTitle="No Event Found"
