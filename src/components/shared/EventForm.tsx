@@ -59,8 +59,6 @@ function EventForm({ userId, type,event,eventId }: EventFormProps) {
         defaultValues: initValues,
     })
 
-    console.log()
-    console.log(event?.imageUrl)
 
     const [files, setFiles] = useState<File[]>([]);
 
